@@ -34,14 +34,12 @@ public class ClienteController {
             cliente.setEmail(clienteActualizado.getEmail());
             cliente.setTelefono(clienteActualizado.getTelefono());
 
-            return ResponseEntity.ok(clienteService.crear(cliente));  // ← Corregido aquí
+            return ResponseEntity.ok(clienteService.crear(cliente));  // ←
         }
         else {
             return ResponseEntity.notFound().build();
         }
     }
-
-
 
     @PostMapping
     public Cliente crear(@RequestBody Cliente cliente) {
@@ -52,6 +50,17 @@ public class ClienteController {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         clienteService.eliminar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Cliente> obtenerClientePorId(@PathVariable Long id) {
+        Optional<Cliente> cliente = clienteService.obtenerPorId(id);
+
+        if (cliente.isPresent()) {
+            return ResponseEntity.ok(cliente.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }
